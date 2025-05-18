@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Trang Chủ - FlowerShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS đã được cập nhật ở phần dưới */
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #f8f9fa; /* Nền sáng hơn một chút */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #495057; /* Màu chữ tối vừa phải */
+        }
+        
+        .navbar {
+            background-color: #fff !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Bóng đổ nhẹ hơn */
+            padding: 1rem 1.5rem; /* Giảm padding một chút */
+            position: sticky; /* Sticky navbar */
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            color: #28a745;
+            font-size: 1.75rem; /* Giảm kích thước logo một chút */
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand .fas {
+            margin-right: 0.5rem; /* Giảm margin biểu tượng */
+        }
+        
+        .navbar-toggler {
+            border: none !important;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none !important;
+        }
+        
+        .navbar-nav .nav-item {
+            margin-left: 1.5rem; /* Giảm khoảng cách menu */
+        }
+        
+        .navbar-nav .nav-link {
+            color: #495057;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #28a745;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(248, 249, 250, 0.7), rgba(248, 249, 250, 0.8)), url('/images/hero-flower.jpg') center/cover no-repeat;
+            padding: 4rem 2rem; /* Giảm padding hero */
+            text-align: center;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 350px; /* Chiều cao tối thiểu cho hero */
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h2 {
+            color: #28a745;
+            font-size: 2.75rem; /* Giảm kích thước tiêu đề hero */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #fff;
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hero .btn-primary:hover {
+            background-color: #1e7e34;
+            border-color: #1e7e34;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            margin-top: 2rem; /* Giảm margin top container */
+            flex-grow: 1;
+            padding: 0 1.5rem; /* Giảm padding container */
+        }
+        
+        h3 {
+            color: #343a40;
+            margin-bottom: 1.25rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Điều chỉnh minmax */
+            gap: 1.25rem; /* Giảm khoảng cách sản phẩm */
+        }
+        
+        .product-item {
+            display: flex;
+        }
+        
+        .card {
+            border: 1px solid #dee2e6; /* Thêm viền nhẹ cho card */
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: scale(1.01); /* Hiệu ứng zoom nhẹ */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-img-top {
+            height: 220px; /* Giảm chiều cao ảnh */
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .card-body {
+            padding: 1rem; /* Giảm padding card body */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            color: #343a40;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-text {
+            color: #6c757d;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .price {
+            font-weight: 600;
+            color: #dc3545;
+            font-size: 1.1rem;
+        }
+        
+        .view-detail-btn {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #fff;
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .view-detail-btn:hover {
+            background-color: #1e7e34;
+            border-color: #1e7e34;
+        }
+        
+        .no-products {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+        }
+        
+        footer {
+            background-color: #f8f9fa;
+            padding: 1.5rem 0; /* Giảm padding footer */
+            color: #6c757d;
+            border-top: 1px solid #eee;
+            margin-top: 3rem; /* Giảm margin top footer */
+        }
+        
+        footer .container {
+            padding: 0 1.5rem;
+        }
+        
+        footer a {
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container px-4">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-leaf me-2"></i>FlowerShop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">
+                            <i class="fas fa-home me-1"></i>Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/login}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/register}">
+                            <i class="fas fa-user-plus me-1"></i>Đăng ký
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h2>Chào Mừng Đến Với FlowerShop</h2>
+            <p>Khám phá bộ sưu tập hoa tươi đa dạng, quà tặng ý nghĩa và dịch vụ tận tâm. Mang trọn yêu thương đến những
+                người bạn дорожите.</p>
+            <a href="#products" class="btn btn-primary"><i class="fas fa-eye me-2"></i>Xem Bộ Sưu Tập</a>
+        </div>
+    </header>
+
+    <div class="container mt-5" id="products">
+        <h3>Sản Phẩm Nổi Bật</h3>
+        <div th:if="${sanPhams.empty}" class="no-products">
+            <i class="fas fa-exclamation-triangle me-2"></i>Hiện chưa có sản phẩm nào.
+        </div>
+        <div class="product-grid">
+            <div th:each="sp : ${sanPhams}" class="product-item">
+                <div class="card">
+                    <img th:src="${sp.hinhAnh}" class="card-img-top" alt="Hình ảnh sản phẩm" />
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${sp.tenHoa}"></h5>
+                        <p class="card-text" th:text="${#strings.abbreviate(sp.moTa, 100)}"></p>
+                        <p class="price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+                        </p>
+                        <a th:href="@{/user/sanpham/chitiet/{id}(id=${sp.id})}" class="view-detail-btn">
+                            <i class="fas fa-info-circle me-1"></i>Xem chi tiết
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center text-md-start">
+                    <p>&copy; 2025 FlowerShop. All rights reserved.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <a href="#" class="text-decoration-none text-muted me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-decoration-none text-muted me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-decoration-none text-muted"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="mb-0">Liên hệ: <a href="mailto:info@flowershop.com"
+                            class="text-decoration-none text-muted">info@flowershop.com</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
